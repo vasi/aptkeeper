@@ -50,7 +50,7 @@ ripgrep tmux git # CLI tools
 
 #### aptkeeper sync
 
-Install and remove packages to match the 
+Install and remove packages to match the keeper files
 
 #### aptkeeper diff
 
