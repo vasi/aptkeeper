@@ -8,7 +8,7 @@ require 'tempfile'
 
 class AptKeeper
   HOME = Dir.home(Etc.getlogin) # Get user's home dir even if using sudo
-  CONFDIR = Pathname.new(HOME).join('.config', 'aptkeeper')
+  CONFDIR = Pathname.new(ENV["APT_KEEPER_DIR"] || File.join(HOME, '.config', 'aptkeeper'))
   EXTENDED_STATES = Pathname.new('/var/lib/apt/extended_states')
   DEBFOSTER = Pathname.new('/var/lib/debfoster/keepers')
 
