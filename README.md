@@ -67,10 +67,15 @@ List packages not listed in .keep, and with no dependencies. Good for finding ca
 ### Other commands
 
 keepers: List packages in .keep files
+
 missing: List packages to be installed
+
 unneeded: List packages to be removed
+
 install: Install missing packages (but don't remove anything)
+
 remove: Remove unneeded packages (but don't install anything)
+
 update-apt: Unconditionally update apt-mark / debfoster
 
 ## Why not use...?
