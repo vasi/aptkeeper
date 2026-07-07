@@ -60,8 +60,24 @@ class AptKeeper
     removed
   end
 
+
+  def bool_apt_config(key, default: false)
+    @apt_config ||= IO.popen(['apt-config', 'dump']).read
+    md = @apt_config.match(/^#{Regexp.escape(key)}\s+"?(true|false|1|0|yes|no)"?;/i)
+    return default unless md
+    %w[true 1 yes].include?(md[1].downcase)
+  end
+
+  def important_rels
+    rels = %w[predepends depends]
+    rels << 'recommends' if  bool_apt_config('APT::AutoRemove::RecommendsImportant')
+    rels << 'suggests' if  bool_apt_config('APT::AutoRemove::SuggestsImportant')
+    rels
+  end
+
   def toplevel
-    IO.popen(['aptitude', 'search', '~i!~Rdepends:~i', '-F' '%p'])
+    pat = '~i ' + important_rels.map {|r| "!~R#{r}:~i" }.join(' ')
+    IO.popen(['aptitude', 'search', pat, '-F' '%p'])
       .readlines.map(&:chomp).to_set
   end
 
